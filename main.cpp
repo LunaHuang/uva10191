@@ -81,22 +81,31 @@ std::string counter_nap_time(std::map<int, int> const & map)
 			int tmp_nap = m->first - DAY_START;
 			if(tmp_nap > nap.nap_total){
 				nap.nap_total = tmp_nap;
-//	std::cout<< nap.nap_start <<" : "<<nap.nap_total<<std::endl;
+	//std::cout<< nap.nap_start <<" : "<<nap.nap_total<<std::endl;
 			}
 			last_end = m->second;
+			if( count == (map.size()-1) ){
+				tmp_nap = DAY_END - m->second;
+				if(tmp_nap > nap.nap_total){
+					nap.nap_total = tmp_nap;
+					nap.nap_start = m->second;
+				}
+			}
 		} else {
 			int tmp_nap = m->first - last_end;
-			if( count == (map.size()-1) ){
-				int tmp = DAY_END - m->second;
-				if(tmp > tmp_nap)
-					tmp_nap = tmp;
-			}
 			if(tmp_nap > nap.nap_total){
 				nap.nap_total = tmp_nap;
 				nap.nap_start = last_end;
 			}
 			last_end = m->second;
-//	std::cout<< nap.nap_start <<" == "<<nap.nap_total<<std::endl;
+			if( count == (map.size()-1) ){
+				tmp_nap = DAY_END - m->second;
+				if(tmp_nap > nap.nap_total){
+					nap.nap_total = tmp_nap;
+					nap.nap_start = m->second;
+				}
+			}
+	//std::cout<< nap.nap_start <<" == "<<nap.nap_total<<std::endl;
 		}
 	}
 
@@ -104,9 +113,9 @@ std::string counter_nap_time(std::map<int, int> const & map)
 	int hh = nap.nap_total/60;
 	int mm = nap.nap_total%60;
 	if(hh == 0)
-		snprintf(buffer, sizeof(buffer), "the longest nap starts at %02d:%02d and will last for %02d minutes.",nap.nap_start/60, nap.nap_start%60, mm);
+		snprintf(buffer, sizeof(buffer), "the longest nap starts at %02d:%02d and will last for %d minutes.",nap.nap_start/60, nap.nap_start%60, mm);
 	else
-		snprintf(buffer, sizeof(buffer), "the longest nap starts at %02d:%02d and will last for %d hours and %02d minutes.",nap.nap_start/60, nap.nap_start%60, hh, mm );
+		snprintf(buffer, sizeof(buffer), "the longest nap starts at %02d:%02d and will last for %d hours and %d minutes.",nap.nap_start/60, nap.nap_start%60, hh, mm );
 
 	std::string nap_string(buffer);
 	return nap_string;
