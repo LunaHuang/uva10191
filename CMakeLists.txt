@@ -4,7 +4,7 @@ project(uva10191 VERSION 0.1.0)
 include(CTest)
 enable_testing()
 find_package(Boost 1.55.0 COMPONENTS filesystem system REQUIRED)
-option(WITH_GTEST "Enable Google Test" OFF)
+option(WITH_GTEST "Enable Google Test" ON)
 
 if(WITH_GTEST)
   find_package(GTest CONFIG REQUIRED)
@@ -13,6 +13,8 @@ if(WITH_GTEST)
 endif()
 
 if(WITH_GTEST)
+ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/data1
+		DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
 add_executable(uva10191_unitest test.cpp)
 target_link_libraries(uva10191_unitest GTest::gtest)
 else()
