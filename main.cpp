@@ -72,50 +72,39 @@ struct NAP_TimeData {
 std::string counter_nap_time(std::map<int, int> const & map)
 {
 	int last_end = 0;
-	int last_start = 0;
 	int count = 0;
+	int tmp_nap;
 	struct NAP_TimeData nap = {DAY_START,0};
 
     for (auto m = map.cbegin(); count != map.size(); ++m, ++count){
 		if( m == map.cbegin() ){
-			int tmp_nap = m->first - DAY_START;
+			tmp_nap = m->first - DAY_START;
 			if(tmp_nap > nap.nap_total){
 				nap.nap_total = tmp_nap;
-	//std::cout<< nap.nap_start <<" : "<<nap.nap_total<<std::endl;
-			}
-			last_end = m->second;
-			if( count == (map.size()-1) ){
-				tmp_nap = DAY_END - m->second;
-				if(tmp_nap > nap.nap_total){
-					nap.nap_total = tmp_nap;
-					nap.nap_start = m->second;
-				}
 			}
 		} else {
-			int tmp_nap = m->first - last_end;
+			tmp_nap = m->first - last_end;
 			if(tmp_nap > nap.nap_total){
 				nap.nap_total = tmp_nap;
 				nap.nap_start = last_end;
 			}
-			last_end = m->second;
-			if( count == (map.size()-1) ){
-				tmp_nap = DAY_END - m->second;
-				if(tmp_nap > nap.nap_total){
-					nap.nap_total = tmp_nap;
-					nap.nap_start = m->second;
-				}
+		}
+		last_end = m->second;
+		if( count == (map.size()-1) ){
+			tmp_nap = DAY_END - m->second;
+			if(tmp_nap > nap.nap_total){
+				nap.nap_total = tmp_nap;
+				nap.nap_start = m->second;
 			}
-	//std::cout<< nap.nap_start <<" == "<<nap.nap_total<<std::endl;
 		}
 	}
 
 	char buffer [512];
 	int hh = nap.nap_total/60;
-	int mm = nap.nap_total%60;
 	if(hh == 0)
-		snprintf(buffer, sizeof(buffer), "the longest nap starts at %02d:%02d and will last for %d minutes.",nap.nap_start/60, nap.nap_start%60, mm);
+		snprintf(buffer, sizeof(buffer), "the longest nap starts at %02d:%02d and will last for %d minutes.",nap.nap_start/60, nap.nap_start%60, nap.nap_total%60);
 	else
-		snprintf(buffer, sizeof(buffer), "the longest nap starts at %02d:%02d and will last for %d hours and %d minutes.",nap.nap_start/60, nap.nap_start%60, hh, mm );
+		snprintf(buffer, sizeof(buffer), "the longest nap starts at %02d:%02d and will last for %d hours and %d minutes.",nap.nap_start/60, nap.nap_start%60, hh, nap.nap_total%60);
 
 	std::string nap_string(buffer);
 	return nap_string;
