@@ -126,9 +126,9 @@ Solve(fake_cin));
   }
 }
 
-/*
 
-TEST(TestCase4, Solution) {
+#if 0
+TEST(TestCase5, Solution) {
   auto Solve = []() -> std::string {
     std::ifstream fs("./data1");
     std::ostringstream oss;
@@ -270,4 +270,4 @@ Day #128: the longest nap starts at 15:16 and will last for 27 minutes.
 Solve());
   }
 }
-*/
+#endif

@@ -48,12 +48,30 @@ public:
 		time = line.substr(pos + 1, pos);
 		sscanf(time.c_str(),"%d:%d",&hh,&mm);
 		int second = hh * 60 + mm;
-        auto itr = occurrences_.find(first);
-		if(itr != occurrences_.end()){
-			if(itr->second > second)
-				second = itr->second;
+
+		for (auto& it : occurrences_) {
+			if ((it.first == first) && (it.second > second)) {
+                occurrences_.erase(first);
+				second = it.second;
+				break;
+			}
+			if (it.second == first) {
+                occurrences_.erase(first);
+				first = it.first;
+				break;
+			}
+			if ((it.second > first) && (it.second < second)){
+                occurrences_.erase(first);
+				first = it.first;
+				break;
+			}
+			if ((it.first < first) && (it.second > second))
+				return *this;
 		}
-		occurrences_[first] = second;
+
+		if(first != second)
+			occurrences_[first] = second;
+
         return *this;
     }
 
@@ -77,6 +95,7 @@ std::string counter_nap_time(std::map<int, int> const & map)
 	struct NAP_TimeData nap = {DAY_START,0};
 
     for (auto m = map.cbegin(); count != map.size(); ++m, ++count){
+//std::cout << m->first << ":" << m->second << std::endl;
 		if( m == map.cbegin() ){
 			tmp_nap = m->first - DAY_START;
 			if(tmp_nap > nap.nap_total){
