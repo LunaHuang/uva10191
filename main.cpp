@@ -12,31 +12,9 @@
 
 class WorkTime
 {
-// typedefs
-public:
-    struct occurrence_t
-    {
-		int m_start;
-		int m_end;
-
-        // disable default constructor
-        occurrence_t() = delete;
-        occurrence_t(int start, int end)
-			:m_start(start), m_end(end)
-        { }
-    };
 
 public:
 	std::map<int, int> const & map() const { return occurrences_; }
-    std::vector<occurrence_t> to_vector() const
-    {
-        std::vector<occurrence_t> result;
-        for (const auto & element : occurrences_)
-        {
-            result.push_back(occurrence_t{element.first, element.second});
-        }
-        return result;
-    }
 
     WorkTime & operator<<(const std::string & line)
     {
@@ -95,7 +73,6 @@ std::string counter_nap_time(std::map<int, int> const & map)
 	struct NAP_TimeData nap = {DAY_START,0};
 
     for (auto m = map.cbegin(); count != map.size(); ++m, ++count){
-//std::cout << m->first << ":" << m->second << std::endl;
 		if( m == map.cbegin() ){
 			tmp_nap = m->first - DAY_START;
 			if(tmp_nap > nap.nap_total){
