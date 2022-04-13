@@ -5,6 +5,7 @@
 #include <regex>
 #include <cctype>
 #include <map>
+#include <vector>
 
 #if defined(WITH_GTEST)
 #include <gtest/gtest.h>
@@ -15,18 +16,19 @@ class WorkTime
 
 public:
 	std::map<int, int> const & map() const { return occurrences_; }
+	std::pair<int, int> get_work_time(const std::string &line)
+	{
+		int hh_s, mm_s, hh_e, mm_e;
+        char info[1024];
+		sscanf(line.c_str(),"%d:%d %d:%d %s",&hh_s,&mm_s,&hh_e,&mm_e,info);
+		return std::make_pair(hh_s * 60 + mm_s, hh_e * 60 + mm_e);
+	}
 
     WorkTime & operator<<(const std::string & line)
     {
-		int hh, mm;
-		size_t pos = line.find(" ");
-		std::string time = line.substr(0, pos);
-		sscanf(time.c_str(),"%d:%d",&hh,&mm);
-		int first = hh * 60 + mm;
-		time = line.substr(pos + 1, pos);
-		sscanf(time.c_str(),"%d:%d",&hh,&mm);
-		int second = hh * 60 + mm;
-
+		std::pair<int, int> p = get_work_time(line);
+		int first = p.first;
+		int second = p.second;
 		for (auto& it : occurrences_) {
 			if ((it.first == first) && (it.second > second)) {
                 occurrences_.erase(first);
@@ -38,8 +40,13 @@ public:
 				first = it.first;
 				break;
 			}
+			if ((it.first > first) && (it.first < second)){
+                occurrences_.erase(it.first);
+				second = it.second;
+				break;
+			}
 			if ((it.second > first) && (it.second < second)){
-                occurrences_.erase(first);
+                occurrences_.erase(it.first);
 				first = it.first;
 				break;
 			}
