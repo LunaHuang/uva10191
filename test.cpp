@@ -127,7 +127,7 @@ Solve(fake_cin));
 }
 
 
-#if 0
+#if 1
 TEST(TestCase5, Solution) {
   auto Solve = []() -> std::string {
     std::ifstream fs("./data1");

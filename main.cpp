@@ -23,7 +23,12 @@ public:
 		sscanf(line.c_str(),"%d:%d %d:%d %s",&hh_s,&mm_s,&hh_e,&mm_e,info);
 		return std::make_pair(hh_s * 60 + mm_s, hh_e * 60 + mm_e);
 	}
-
+	void show(void)
+	{
+		for (auto& it : occurrences_) {
+			std::cout << it.first << ":" << it.second << std::endl;
+		}
+	}
     WorkTime & operator<<(const std::string & line)
     {
 		std::pair<int, int> p = get_work_time(line);
@@ -98,19 +103,26 @@ std::string counter_nap_time(std::map<int, int> const & map)
 			if(tmp_nap > nap.nap_total){
 				nap.nap_total = tmp_nap;
 			}
+			last_end = m->second;
 		} else {
-			tmp_nap = m->first - last_end;
+			if(m->first >= last_end){
+				tmp_nap = m->first - last_end;
+				if(tmp_nap > nap.nap_total){
+					nap.nap_total = tmp_nap;
+					nap.nap_start = last_end;
+				}
+				last_end = m->second;
+			} else {
+				if(m->second > last_end){
+					last_end = m->second;
+				}
+			}
+		}
+		if( count == (map.size()-1) ){
+			tmp_nap = DAY_END - last_end;
 			if(tmp_nap > nap.nap_total){
 				nap.nap_total = tmp_nap;
 				nap.nap_start = last_end;
-			}
-		}
-		last_end = m->second;
-		if( count == (map.size()-1) ){
-			tmp_nap = DAY_END - m->second;
-			if(tmp_nap > nap.nap_total){
-				nap.nap_total = tmp_nap;
-				nap.nap_start = m->second;
 			}
 		}
 	}
@@ -135,7 +147,7 @@ std::string longest_nap_function(std::istream &is, int num)
         work_time << line;
 		num--;
 	}
-
+//	work_time.show();
 	std::string nap = counter_nap_time(work_time.map());
 	return nap;
 }
