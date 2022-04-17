@@ -30,28 +30,41 @@ public:
 		int first = p.first;
 		int second = p.second;
 		for (auto& it : occurrences_) {
-			if ((it.first == first) && (it.second > second)) {
-                occurrences_.erase(first);
-				second = it.second;
-				break;
-			}
 			if (it.second == first) {
-                occurrences_.erase(first);
+                occurrences_.erase(it.first);
 				first = it.first;
 				break;
 			}
-			if ((it.first > first) && (it.first < second)){
+			if (it.first == second) {
                 occurrences_.erase(it.first);
 				second = it.second;
 				break;
 			}
-			if ((it.second > first) && (it.second < second)){
-                occurrences_.erase(it.first);
-				first = it.first;
-				break;
+
+			if (it.first <= first) {
+				if (first > it.second)
+					break;
+				else {
+					if (it.second >= second)
+						return *this;
+					else{
+						occurrences_.erase(it.first);
+						first = it.first;
+						break;
+					}
+				}
 			}
-			if ((it.first < first) && (it.second > second))
-				return *this;
+
+			if (it.first > first) {
+				if (it.first > second)
+					break;
+				else {
+					occurrences_.erase(it.first);
+					if(it.second > second)
+						second = it.second;
+					break;
+				}
+			}
 		}
 
 		if(first != second)
@@ -76,7 +89,7 @@ std::string counter_nap_time(std::map<int, int> const & map)
 {
 	int last_end = 0;
 	int count = 0;
-	int tmp_nap;
+	int tmp_nap = 0;
 	struct NAP_TimeData nap = {DAY_START,0};
 
     for (auto m = map.cbegin(); count != map.size(); ++m, ++count){
