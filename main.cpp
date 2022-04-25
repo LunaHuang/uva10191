@@ -19,8 +19,9 @@ public:
 	std::pair<int, int> get_work_time(const std::string &line)
 	{
 		int hh_s, mm_s, hh_e, mm_e;
-        char info[1024];
-		sscanf(line.c_str(),"%d:%d %d:%d %s",&hh_s,&mm_s,&hh_e,&mm_e,info);
+        char c_s, c_e;
+        std::istringstream ss(line);
+        ss >> hh_s >> c_s >> mm_s >> hh_e >> c_e >> mm_e;
 		return std::make_pair(hh_s * 60 + mm_s, hh_e * 60 + mm_e);
 	}
 	void show(void)
