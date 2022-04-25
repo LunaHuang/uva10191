@@ -84,8 +84,8 @@ private:
     std::map<int, int> occurrences_;
 };
 
-#define DAY_START 600
-#define DAY_END 1080
+#define DAY_START 10*60
+#define DAY_END 18*60
 struct NAP_TimeData {
 	int nap_start;
 	int nap_total;
