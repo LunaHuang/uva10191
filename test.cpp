@@ -3,38 +3,40 @@
 #include <fstream>
 #include "main.cpp"
 
-TEST(TestCase1, Solution) {
-  auto Solve = [](std::istream& is) -> std::string {
-    std::ostringstream oss;
-    solve_uva_problem(is,oss);
-    return std::string("\n") + oss.str();
-  };
-  {
-    std::stringstream fake_cin;
-    fake_cin << R"(4
+TEST(TestCase1, Solution)
+{
+    auto Solve = [](std::istream &is) -> std::string {
+        std::ostringstream oss;
+        solve_uva_problem(is, oss);
+        return std::string("\n") + oss.str();
+    };
+    {
+        std::stringstream fake_cin;
+        fake_cin << R"(4
 10:00 12:00 Lectures
 12:00 13:00 Lunch, like always.
 12:00 12:05 Boring lectures...
 15:30 17:45 Reading
 )";
 
-    EXPECT_EQ(
-        R"(
+        EXPECT_EQ(
+                R"(
 Day #1: the longest nap starts at 13:00 and will last for 2 hours and 30 minutes.
 )",
-Solve(fake_cin));
-  }
+                Solve(fake_cin));
+    }
 }
 
-TEST(TestCase2, Solution) {
-  auto Solve = [](std::istream& is) -> std::string {
-    std::ostringstream oss;
-    solve_uva_problem(is,oss);
-    return std::string("\n") + oss.str();
-  };
-  {
-    std::stringstream fake_cin;
-    fake_cin << R"(5
+TEST(TestCase2, Solution)
+{
+    auto Solve = [](std::istream &is) -> std::string {
+        std::ostringstream oss;
+        solve_uva_problem(is, oss);
+        return std::string("\n") + oss.str();
+    };
+    {
+        std::stringstream fake_cin;
+        fake_cin << R"(5
 12:01 13:00 Meeting with Lucius Fox
 13:00 15:00 Repairing batmobile
 15:30 15:31 Posing for Financial Times
@@ -42,23 +44,24 @@ TEST(TestCase2, Solution) {
 12:00 12:01 Owning Joker
 )";
 
-    EXPECT_EQ(
-        R"(
+        EXPECT_EQ(
+                R"(
 Day #1: the longest nap starts at 15:31 and will last for 2 hours and 29 minutes.
 )",
-Solve(fake_cin));
-  }
+                Solve(fake_cin));
+    }
 }
 
-TEST(TestCase3, Solution) {
-  auto Solve = [](std::istream& is) -> std::string {
-    std::ostringstream oss;
-    solve_uva_problem(is,oss);
-    return std::string("\n") + oss.str();
-  };
-  {
-    std::stringstream fake_cin;
-    fake_cin << R"(4
+TEST(TestCase3, Solution)
+{
+    auto Solve = [](std::istream &is) -> std::string {
+        std::ostringstream oss;
+        solve_uva_problem(is, oss);
+        return std::string("\n") + oss.str();
+    };
+    {
+        std::stringstream fake_cin;
+        fake_cin << R"(4
 10:00 12:00 Lectures
 12:00 13:00 Lunch, like always.
 13:00 15:00 Boring lectures...
@@ -77,26 +80,27 @@ TEST(TestCase3, Solution) {
 12:00 13:00 I love lunch! Have you ever noticed it? :)
 )";
 
-    EXPECT_EQ(
-        R"(
+        EXPECT_EQ(
+                R"(
 Day #1: the longest nap starts at 15:00 and will last for 30 minutes.
 Day #2: the longest nap starts at 15:00 and will last for 1 hours and 45 minutes.
 Day #3: the longest nap starts at 17:15 and will last for 45 minutes.
 Day #4: the longest nap starts at 13:00 and will last for 5 hours and 0 minutes.
 )",
-Solve(fake_cin));
-  }
+                Solve(fake_cin));
+    }
 }
 
-TEST(TestCase4, Solution) {
-  auto Solve = [](std::istream& is) -> std::string {
-    std::ostringstream oss;
-    solve_uva_problem(is,oss);
-    return std::string("\n") + oss.str();
-  };
-  {
-    std::stringstream fake_cin;
-    fake_cin << R"(4
+TEST(TestCase4, Solution)
+{
+    auto Solve = [](std::istream &is) -> std::string {
+        std::ostringstream oss;
+        solve_uva_problem(is, oss);
+        return std::string("\n") + oss.str();
+    };
+    {
+        std::stringstream fake_cin;
+        fake_cin << R"(4
 10:00 12:00 Lectures
 12:00 13:00 Lunch, like always.
 13:00 15:00 Boring lectures...
@@ -115,29 +119,29 @@ TEST(TestCase4, Solution) {
 12:00 13:00 I love lunch! Have you ever noticed it? :)
 )";
 
-    EXPECT_EQ(
-        R"(
+        EXPECT_EQ(
+                R"(
 Day #1: the longest nap starts at 15:00 and will last for 30 minutes.
 Day #2: the longest nap starts at 15:00 and will last for 1 hours and 45 minutes.
 Day #3: the longest nap starts at 17:15 and will last for 45 minutes.
 Day #4: the longest nap starts at 13:00 and will last for 5 hours and 0 minutes.
 )",
-Solve(fake_cin));
-  }
+                Solve(fake_cin));
+    }
 }
-
 
 #if 1
-TEST(TestCase5, Solution) {
-  auto Solve = []() -> std::string {
-    std::ifstream fs("./data1");
-    std::ostringstream oss;
-    solve_uva_problem(fs,oss);
-    return std::string("\n") + oss.str();
-  };
-  {
-    EXPECT_EQ(
-	R"(
+TEST(TestCase5, Solution)
+{
+    auto Solve = []() -> std::string {
+        std::ifstream fs("./data1");
+        std::ostringstream oss;
+        solve_uva_problem(fs, oss);
+        return std::string("\n") + oss.str();
+    };
+    {
+        EXPECT_EQ(
+                R"(
 Day #1: the longest nap starts at 10:00 and will last for 1 hours and 20 minutes.
 Day #2: the longest nap starts at 10:00 and will last for 22 minutes.
 Day #3: the longest nap starts at 10:00 and will last for 16 minutes.
@@ -267,7 +271,7 @@ Day #126: the longest nap starts at 10:00 and will last for 19 minutes.
 Day #127: the longest nap starts at 10:00 and will last for 11 minutes.
 Day #128: the longest nap starts at 15:16 and will last for 27 minutes.
 )",
-Solve());
-  }
+                Solve());
+    }
 }
 #endif
